@@ -1,4 +1,5 @@
 const { response } = require('express');
+const Usuario= require('../models/usuario');
 
 const usuariosGET=(req,res=response)=> {
         const qry=req.query
@@ -14,13 +15,16 @@ const usuariosPUT=(req,res=response)=> {
      id,
      msg:'PUT_ API'})
 }
- const usuariosPOST=(req,res=response)=> {
-    const {nombre,edad }=req.body;
-    res.status(201).json(
+
+ const usuariosPOST=async(req,res=response)=> {
+     const body=req.body;
+     const usuario =new Usuario(body);
+     await usuario.save();
+     res.status(201).json(
      {
      ok:true,
      msg:'POST_ API',
-     nombre,edad
+     usuario
     })
 }
 const usuariosDEL=(req,res=response)=> {

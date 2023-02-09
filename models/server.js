@@ -1,16 +1,21 @@
 const express = require('express')
-var cors = require('cors')
+var cors = require('cors');
+const cnn = require('../database/config');
 require('dotenv').config()
 class  Server  {
  constructor(){
-   this.usuariosPATH='/api/usuarios';
+   //conectar BD 
+    this.cnnToDB();
+    this.usuariosPATH='/api/usuarios';
     this.app = express();
     this.PORT=process.env.PORT;
     //rutas de mi aplicación
     this.middlewares();
     this.routes();
-   
  }
+  async cnnToDB(){
+    await cnn()
+  }
  middlewares(){
    //otro midelware para formatear el body de la peticion req.
    this.app.use(express.json())
