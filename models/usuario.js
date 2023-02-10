@@ -16,7 +16,7 @@ const UsarioSchema=Schema({
     },
     img:{
         type:String,
-        required:[true, 'La imagen es obligatorio']
+        required:[false, 'La imagen es obligatorio']
     },
     rol:{
         type:String,
@@ -32,5 +32,10 @@ const UsarioSchema=Schema({
         default:true,
     },
 })
+UsarioSchema.methods.toJSON=function(){
+    //aqui va a ignorar el v , y el password. sólo va tomar el objeto usuario quitando esas opciones.
+    const {__v, password, ...usuario}=this.toObject()
+    return usuario
+}
 
 module.exports=model('Usuario',UsarioSchema);
